@@ -216,15 +216,15 @@ class Backend {
 		if ($value) {
 			$query->insert('dav_shares')
 						->values([
-							'principaluri' => $query->createNamedParameter('PUBLIC'),
+							'principaluri' => $query->createNamedParameter($sharable->getPrincipalURI()),
 							'type' => $query->createNamedParameter($this->resourceType),
 							'access' => $query->createNamedParameter(self::ACCESS_PUBLIC),
 							'resourceid' => $query->createNamedParameter($sharable->getResourceId())
 						]);
 		} else {
 			$query->delete('dav_shares')
-						->where($query->expr()->eq('principaluri', 'PUBLIC'))
-						->andWhere($query->expr()->eq('resourceid', $sharable->getResourceId()));
+						->Where($query->expr()->eq('resourceid', $query->createNamedParameter($sharable->getResourceId())))
+						->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)));
 		}
 		$query->execute();
 	}

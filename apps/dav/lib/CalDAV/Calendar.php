@@ -89,6 +89,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable, IShareableC
 		return $this->calendarInfo['id'];
 	}
 
+	public function getPrincipalURI() {
+		return $this->calendarInfo['principaluri'];
+	}
+
 	function getACL() {
 		$acl =  [
 			[
